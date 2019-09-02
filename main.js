@@ -32,26 +32,29 @@ function saveIssue(){
 }
 
 function fetchIsuues(){
-    const issues = JSON.parse(localStorage.getItem('issues'))
-    const issuesList = document.getElementById('issuesList')
-    issuesList.innerHTML = ''
-    if(issues){
-        for (let index = 0; index < issues.length; index++) {
-            let [id,desc,severity,assignedTo,status] = [issues[index].id,issues[index].description,issues[index].severity,issues[index].assignedTo,issues[index].status]
-            
-            issuesList.innerHTML += `<div class="card bg-light">
-            <div class="card-body">
-            <h6>Issue ID: ${id}</h6>
-            <p><span class="badge badge-primary">${status}</span></p>
-            <h3>${desc}</h3>
-            <p><img src="img/clock.svg" alt=""> ${severity}</p>
-            <p><img src="img/person.svg" alt=""> ${assignedTo}</p>
-            <a href="#" onclick="setStatusClosed(\'${id}\')" class="btn btn-warning">Close</a>
-            <a href="#" onclick="deleteIssue(\'${id}\')" class="btn btn-danger">Delete</a>
-            </div>
-            </div>`;
-        }
+    const issuesData = JSON.parse(localStorage.getItem('issues'))
+    const issuesListContainer = document.getElementById('issuesList')
+
+    if(issuesListContainer) issuesListContainer.textContent = ''
+    const issuesList = document.createDocumentFragment()
+
+    if(issuesData){
+        issuesData.forEach(item => {
+            let [id,desc,severity,assignedTo,status] = [item.id,item.description,item.severity,item.assignedTo,item.status]
+
+            const issue = document.getElementById('structure').content.cloneNode(true)
+            issue.querySelector('h6').textContent = `Issue ID: ${id}`
+            issue.getElementById('status').textContent = status
+            issue.querySelector('h3').textContent = desc
+            issue.getElementById('issueSeverity').innerHTML +=`${severity}`
+            issue.getElementById('issueAssignedTo').innerHTML +=`${assignedTo}`
+            issue.getElementById('closeButton').addEventListener('click',()=>setStatusClosed(id))
+            issue.getElementById('deleteButton').addEventListener('click',()=>deleteIssue(id))
+            issuesList.prepend(issue)
+        });
     }
+    
+    issuesListContainer.appendChild(issuesList)
 }
 
 function setStatusClosed(id){
@@ -59,6 +62,7 @@ function setStatusClosed(id){
     for (let index = 0; index < issues.length; index++) {
         if(issues[index].id!=id)    continue
         issues[index].status = 'Closed'
+        break
     }
     localStorage.setItem('issues',JSON.stringify(issues))
     fetchIsuues()
@@ -69,6 +73,7 @@ function deleteIssue(id){
     for (let index = 0; index < issues.length; index++) {
         if(issues[index].id!=id)    continue
         issues.splice(index,1)
+        break
     }
     localStorage.setItem('issues',JSON.stringify(issues))
     fetchIsuues()

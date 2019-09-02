@@ -9,8 +9,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Issue Tracker <small>by Fabrizio</small></h1>
-        <div class="jumbotron">
+        <header>
+            <h1>Issue Tracker <small>by Fabrizio</small></h1>
+        </header>
+        <section class="jumbotron">
             <h3>Add new Issue</h3>
             <form id="issue-input">
                 <div class="form-group">
@@ -31,15 +33,27 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
             </form>
-        </div>
-        <div class="col-lg-12">
-            <div id="issuesList">
-            </div>
-        </div>
-        <div class="footer">
+        </section>
+        <section class="col-lg-12" id="issuesList">
+        </section>
+        <footer class="footer">
             <p>&copy fabrizio</p>
-        </div>
+        </footer>
     </div>
+    <template id="structure">
+        <section class="card bg-light">
+            <div class="card-body">
+                <h6 id="issueID"></h6>
+                <p><span class="badge badge-primary" id="status"></span></p>
+                <h3></h3>
+                <p id="issueSeverity"><img src="img/clock.svg" alt="clock image"></p>
+                <p id="issueAssignedTo"><img src="img/person.svg" alt="persona image"></p>
+                <a href="#" class="btn btn-warning" id="closeButton">Close</a>
+                <a href="#" class="btn btn-danger" id="deleteButton">Delete</a>
+            </div>
+        </section>
+    </template>
+    
     <!-- Scripts del Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
